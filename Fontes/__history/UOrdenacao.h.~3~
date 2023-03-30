@@ -1,0 +1,19 @@
+//---------------------------------------------------------------------------
+
+#ifndef UOrdenacaoH
+#define UOrdenacaoH
+//---------------------------------------------------------------------------
+void FnCarregarVetor(int pFaixaDeValores, int pTamanhoDoVetor);
+
+
+
+
+
+
+
+
+
+
+
+
+#endif

@@ -1,0 +1,36 @@
+object FrmPrincipal: TFrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Sistema de an'#225'lise de algoritmos'
+  ClientHeight = 266
+  ClientWidth = 455
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsMDIForm
+  Menu = mnmPrincipal
+  OldCreateOrder = False
+  WindowState = wsMaximized
+  PixelsPerInch = 96
+  TextHeight = 13
+  object mnmPrincipal: TMainMenu
+    Left = 168
+    Top = 96
+    object Eficincia1: TMenuItem
+      Caption = 'Efici'#234'ncia'
+      object Algoritmosdeordenao1: TMenuItem
+        Caption = 'Algoritmos de ordena'#231#227'o...'
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object Sair1: TMenuItem
+        Caption = 'Sair'
+        OnClick = EvFecharSistemaOnClick
+      end
+    end
+  end
+end

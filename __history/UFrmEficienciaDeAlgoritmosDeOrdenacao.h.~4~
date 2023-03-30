@@ -1,0 +1,31 @@
+//---------------------------------------------------------------------------
+
+#ifndef UFrmEficienciaDeAlgoritmosDeOrdenacaoH
+#define UFrmEficienciaDeAlgoritmosDeOrdenacaoH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <VCLTee.Chart.hpp>
+#include <VCLTee.TeEngine.hpp>
+#include <VCLTee.TeeProcs.hpp>
+#include <VCLTee.Series.hpp>
+//---------------------------------------------------------------------------
+class TFrmEficienciaDeAlgoritmosDeOrdenacao : public TForm
+{
+__published:	// IDE-managed Components
+	TGroupBox *grpControles;
+	TChart *crtGraficoDeOrdenacao;
+	TLabeledEdit *edtFaixaDeValores;
+	TLabeledEdit *edtTamanhoDoVetor;
+	TBarSeries *Series1;
+private:	// User declarations
+public:		// User declarations
+	__fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TFrmEficienciaDeAlgoritmosDeOrdenacao *FrmEficienciaDeAlgoritmosDeOrdenacao;
+//---------------------------------------------------------------------------
+#endif

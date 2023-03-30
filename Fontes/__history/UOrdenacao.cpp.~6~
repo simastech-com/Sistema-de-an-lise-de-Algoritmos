@@ -1,0 +1,26 @@
+//---------------------------------------------------------------------------
+
+#pragma hdrstop
+
+#include "UOrdenacao.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+
+#include<time.h>
+#include<stdio.h>
+double *vVetor;
+
+void FnCarregarVetor(int pFaixaDeValores, int pTamanhoDoVetor){
+	double vAuxiliar;
+	int vContadorDeNumeros;
+	Series1->Clear();
+	crtGraficoDeOrdenacao->LeftAxis->Maximum = pFaixaDeValores;
+	delete vVetor;
+	vVetor = new(double[vFaixaDeValores]);
+	for (vContadorDeNumeros = 0; vContadorDeNumeros < pTamanhoDoVetor; vContadorDeNumeros++) {
+		//vVetor[vContadorDeNumeros] = 0;
+		vVetor[vContadorDeNumeros] = random(pFaixaDeValores);
+		Series1->AddXY(vContadorDeNumeros,vVetor[vContadorDeNumeros],"",TColor(random(65535)));
+	}
+	vVetorGerado=1;
+}

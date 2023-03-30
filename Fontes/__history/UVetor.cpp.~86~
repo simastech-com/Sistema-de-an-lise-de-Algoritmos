@@ -1,0 +1,61 @@
+//---------------------------------------------------------------------------
+
+#pragma hdrstop
+
+#include <vlc.h>
+
+#include "UVetor.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+Vetor::Vetor()
+{
+	numero = 0;
+	cor    = 0;
+}
+Vetor::~Vetor()
+{
+	numero = 0;
+	cor    = 0;
+}
+void Vetor::setNumero(double pNumero, int pPosicao)
+{
+	numero[pPosicao] = pNumero;
+}
+double Vetor::getNumero(int pPosicao)
+{
+	return numero[pPosicao];
+}
+void Vetor::setCor(int pCor, int pPosicao)
+{
+	cor[pPosicao] = pCor;
+}
+int Vetor::getCor(int pPosicao)
+{
+	return cor[pPosicao];
+}
+void Vetor::setTamanho(int pTamanho)
+{
+	tamanho = pTamanho;
+}
+int Vetor::getTamanho()
+{
+	return tamanho;
+}
+void Vetor::setFaixaDeValores(int pFaixaDeValores)
+{
+	faixaDeValores = pFaixaDeValores;
+}
+int Vetor::getFaixaDeValores()
+{
+	return faixaDeValores;
+}
+void Vetor::carregarVetor()
+{
+	int vContador;
+	//new(Vetor[getTamanhoDoVetor()]);
+	for (vContador=0; vContador < getTamanho(); vContador++)
+	{
+		setNumero(random(getFaixaDeValores()), vContador);
+		setCor(random(65535), vContador);
+	}
+}

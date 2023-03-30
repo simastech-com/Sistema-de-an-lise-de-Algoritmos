@@ -1,0 +1,141 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+
+#include<time.h>
+#include<stdio.h>
+
+#pragma hdrstop
+
+#include "UFrmEficienciaDeAlgoritmosDeOrdenacao.h"
+#include "UVetor.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TFrmEficienciaDeAlgoritmosDeOrdenacao *FrmEficienciaDeAlgoritmosDeOrdenacao;
+int vVetorGerado = 0, vTamanhoDoVetor, vFaixaDeValores;
+Vetor *oVetor;
+//double *vVetor;
+//---------------------------------------------------------------------------
+__fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::TFrmEficienciaDeAlgoritmosDeOrdenacao(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvCarregarAlgoritmosDeOrdenacaoOnCreate(TObject *Sender)
+
+{
+	oVetor = new Vetor;
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvFecharFormularioOnClose(TObject *Sender,
+          TCloseAction &Action)
+{
+	delete oVetor;
+	Action = caFree;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvCarregarVetorOnClick(TObject *Sender)
+{
+	int vTamanhoDoVetor;
+	int vFaixaDeValores;
+	int vContador;
+	vTamanhoDoVetor = edtTamanhoDoVetor -> Text.ToInt();
+	vFaixaDeValores = edtFaixaDeValores -> Text.ToInt();
+	oVetor -> setTamanhoDoVetor(vTamanhoDoVetor);
+	oVetor -> setFaixaDeValores(vFaixaDeValores);
+	oVetor -> dimensionarVetor();
+	oVetor -> carregarVetor();
+	carregarGrafico(oVetor ->getNumero() , oVetor ->getCor(), oVetor ->getTamanhoDoVetor());
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvResetarVetorOnClick(TObject *Sender)
+
+{
+	carregarGrafico(oVetor ->getNumero() , oVetor ->getCor(), oVetor ->getTamanhoDoVetor());
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvOrdenarVetorOnClick(TObject *Sender)
+{
+	if (chxSelecao->State == cbChecked) {
+	//FnOrdenarPorSelecao();
+	}
+	Caption = "Ordenação terminada";
+}
+
+//---------------------------------------------------------------------------
+/*
+void TFrmEficienciaDeAlgoritmosDeOrdenacao::FnCarregarVetor(){
+	double vAuxiliar;
+	int vContadorDeNumeros;
+	vFaixaDeValores = edtFaixaDeValores -> Text.ToInt();
+	vTamanhoDoVetor = edtTamanhoDoVetor -> Text.ToInt();
+	Series1->Clear();
+	crtGraficoDeOrdenacao->LeftAxis->Maximum = vFaixaDeValores;
+	delete vVetor;
+	delete vCoresDasColunas;
+	vVetor = new(double[vFaixaDeValores]);
+	vCoresDasColunas = new (int[65535]);
+	for (vContadorDeNumeros = 0; vContadorDeNumeros < vTamanhoDoVetor; vContadorDeNumeros++) {
+		vVetor[vContadorDeNumeros] = random(vFaixaDeValores);
+		Series1->AddXY(vContadorDeNumeros,vVetor[vContadorDeNumeros],"",TColor(random(65535)));
+		vCoresDasColunas[vContadorDeNumeros] = Series1 ->ValueColor[vContadorDeNumeros];
+	}
+}
+*/
+//---------------------------------------------------------------------------
+
+void TFrmEficienciaDeAlgoritmosDeOrdenacao::carregarGrafico(double *pNumeros, int *pCores, int pTamanhoDoVetor){
+	int vContador;
+	for (vContador = 0; vContador < pTamanhoDoVetor; vContador++) {
+		Series1->AddXY(vContador, pNumeros[vContador], "", pCores[vContador]);
+	}
+}
+
+//---------------------------------------------------------------------------
+/*
+void TFrmEficienciaDeAlgoritmosDeOrdenacao::FnOrdenarPorSelecao(){
+	int vPosicaoMenor, vCompara = 0, vTroca = 0, vContadorElementos, vContadorComparacao,vCorMenor, vCorMaior, vDuracao;
+	double vAuxiliar, *vVetorAOrdenar;
+	clock_t vInicio, vFim;
+	Caption = "Executando ordenação por seleção...";
+	ShowMessage("A seguir, será exibida  a ordenação através do método de seleção");
+	vVetorAOrdenar = new (double[vFaixaDeValores]);
+	for (vContadorElementos = 0; vContadorElementos < vTamanhoDoVetor; vContadorElementos++) {
+		vVetorAOrdenar[vContadorElementos] = vVetor[vContadorElementos];
+	}
+	vInicio = clock();
+	for (vContadorElementos = 0; vContadorElementos < vTamanhoDoVetor; vContadorElementos++) {
+		vPosicaoMenor = vContadorElementos;
+		for (vContadorComparacao = (vContadorElementos + 1); vContadorComparacao < vTamanhoDoVetor; vContadorComparacao++) {
+			vCompara++;
+			if (vVetorAOrdenar[vContadorComparacao] < vVetorAOrdenar[vPosicaoMenor]) {
+				vPosicaoMenor = vContadorComparacao;
+			}
+		}
+		vAuxiliar = vVetorAOrdenar[vPosicaoMenor];
+		vVetorAOrdenar[vPosicaoMenor] = vVetorAOrdenar[vContadorElementos];
+		vVetorAOrdenar[vContadorElementos] = vAuxiliar;
+		vCorMenor = Series1 ->ValueColor[vPosicaoMenor];
+		vCorMaior = Series1 ->ValueColor[vContadorElementos];
+		Series1->ValueColor[vPosicaoMenor] = TColor(vCorMaior);
+		Series1->ValueColor[vContadorElementos] = TColor(vCorMenor);
+		Series1->YValue[vPosicaoMenor] = vVetorAOrdenar[vPosicaoMenor];
+		Series1->YValue[vContadorElementos] = vVetorAOrdenar[vContadorElementos];
+		Update();
+		Sleep(500);
+		vTroca++;
+	}
+	vFim = clock();
+	vDuracao = (vFim - vInicio)/CLK_TCK;
+	delete vVetorAOrdenar;
+}
+*/
+//---------------------------------------------------------------------------
+
+
+
+

@@ -1,0 +1,195 @@
+object FrmEficienciaDeAlgoritmosDeOrdenacao: TFrmEficienciaDeAlgoritmosDeOrdenacao
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'An'#225'lise de efici'#234'ncia de algoritmos de ordena'#231#227'o'
+  ClientHeight = 646
+  ClientWidth = 1141
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Visible = True
+  OnClose = EvFecharFormularioOnClose
+  OnCreate = EvCarregarAlgoritmosDeOrdenacaoOnCreate
+  PixelsPerInch = 96
+  TextHeight = 16
+  object grpVetor: TGroupBox
+    Left = 8
+    Top = 0
+    Width = 281
+    Height = 121
+    TabOrder = 0
+    object edtFaixaDeValores: TLabeledEdit
+      Left = 19
+      Top = 32
+      Width = 102
+      Height = 24
+      EditLabel.Width = 93
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Faixa de valores'
+      EditLabel.Font.Charset = DEFAULT_CHARSET
+      EditLabel.Font.Color = clWindowText
+      EditLabel.Font.Height = -13
+      EditLabel.Font.Name = 'Tahoma'
+      EditLabel.Font.Style = []
+      EditLabel.ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+    end
+    object edtTamanhoDoVetor: TLabeledEdit
+      Left = 19
+      Top = 80
+      Width = 102
+      Height = 24
+      EditLabel.Width = 105
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Tamanho do vetor'
+      EditLabel.Font.Charset = DEFAULT_CHARSET
+      EditLabel.Font.Color = clWindowText
+      EditLabel.Font.Height = -13
+      EditLabel.Font.Name = 'Tahoma'
+      EditLabel.Font.Style = []
+      EditLabel.ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+    end
+    object btnCarregarVetor: TButton
+      Left = 152
+      Top = 32
+      Width = 107
+      Height = 25
+      Caption = 'Carregar vetor'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      OnClick = EvCarregarVetorOnClick
+    end
+    object btnResetar: TButton
+      Left = 152
+      Top = 80
+      Width = 107
+      Height = 25
+      Caption = 'Resetar'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      OnClick = EvResetarVetorOnClick
+    end
+  end
+  object crtGraficoDeOrdenacao: TChart
+    Left = 8
+    Top = 127
+    Width = 1125
+    Height = 200
+    Legend.Visible = False
+    Title.Font.Height = -13
+    Title.Text.Strings = (
+      'Gr'#225'fico de posi'#231#245'es do vetor')
+    BottomAxis.Title.Caption = 'Posi'#231#227'o'
+    BottomAxis.Title.Font.Height = -13
+    LeftAxis.Title.Caption = 'Valor'
+    LeftAxis.Title.Font.Height = -13
+    TabOrder = 1
+    ColorPaletteIndex = 13
+    object Series1: TBarSeries
+      Marks.Arrow.Visible = True
+      Marks.Callout.Brush.Color = clBlack
+      Marks.Callout.Arrow.Visible = True
+      Marks.Visible = True
+      Title = 'srsNumerosDoVetor'
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+  end
+  object grpOrdenacao: TGroupBox
+    Left = 304
+    Top = 0
+    Width = 829
+    Height = 121
+    TabOrder = 2
+    object btnOrdenar: TButton
+      Left = 711
+      Top = 32
+      Width = 107
+      Height = 25
+      Caption = 'Ordenar'
+      TabOrder = 0
+      OnClick = EvOrdenarVetorOnClick
+    end
+    object chxSelecao: TCheckBox
+      Left = 40
+      Top = 36
+      Width = 169
+      Height = 17
+      Caption = 'Ordena'#231#227'o por Selecao'
+      TabOrder = 1
+    end
+  end
+  object grpEstatisticas: TGroupBox
+    Left = 8
+    Top = 333
+    Width = 1125
+    Height = 268
+    Caption = 'Estat'#237'sticas'
+    TabOrder = 3
+    object Chart1: TChart
+      Left = 19
+      Top = 32
+      Width = 350
+      Height = 217
+      Legend.Visible = False
+      Title.Font.Height = -13
+      Title.Text.Strings = (
+        'Dura'#231#227'o')
+      BottomAxis.Title.Font.Height = -13
+      LeftAxis.LabelsFont.Height = -13
+      LeftAxis.Title.Caption = 'Tempo (ms)'
+      LeftAxis.Title.Font.Height = -13
+      TabOrder = 0
+      PrintMargins = (
+        15
+        27
+        15
+        27)
+      ColorPaletteIndex = 13
+      object Series2: TBarSeries
+        Marks.Arrow.Visible = True
+        Marks.Callout.Brush.Color = clBlack
+        Marks.Callout.Arrow.Visible = True
+        Marks.Visible = True
+        Title = 'srsDuracao'
+        XValues.Name = 'X'
+        XValues.Order = loAscending
+        YValues.Name = 'Bar'
+        YValues.Order = loNone
+      end
+    end
+  end
+end

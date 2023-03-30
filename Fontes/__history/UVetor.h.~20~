@@ -1,0 +1,45 @@
+//---------------------------------------------------------------------------
+
+#ifndef UVetorH
+#define UVetorH
+
+class  Vetor{
+	private:
+		double *numeros;
+		double *numerosOrdenados;
+		int    *cores;
+		int    *coresOrdenadas;
+		int    tamanhoDoVetor;
+		int    faixaDeValores;
+	public:
+/*------------------------CONSTRUTORES E DESTRUTORES-------------------------*/
+		Vetor();
+		~Vetor();
+/*-----------------------------GETTER AND SETTER-----------------------------*/
+		void   setNumero(double pNumero, int pPosicao);
+		double *getNumero();
+		void   setNumerosOrdenados(double pNumero, int pPosicao);}
+		double *getNumerosOrdenados();
+		void   setCor(int pNumero, int pPosicao);
+		int    *getCor();
+		void   setCoresOrdenadas(int pNumero, int pPosicao);
+		int    *getCoresOrdenadas();
+		void   setTamanhoDoVetor(int pTamanho);
+		int    getTamanhoDoVetor();
+		void   setFaixaDeValores(int pFaixa);
+		int    getFaixaDeValores();
+/*-----------------------------------WORK------------------------------------*/
+        void   dimensionarVetor();
+		void   carregarVetor();
+		void   ordenarVetorPorSelecao();
+
+
+
+};
+
+
+
+
+
+//---------------------------------------------------------------------------
+#endif

@@ -1,0 +1,21 @@
+//---------------------------------------------------------------------------
+
+#ifndef UFrmBibliografiaH
+#define UFrmBibliografiaH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+//---------------------------------------------------------------------------
+class TFrmBibliografia : public TForm
+{
+__published:	// IDE-managed Components
+private:	// User declarations
+public:		// User declarations
+	__fastcall TFrmBibliografia(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TFrmBibliografia *FrmBibliografia;
+//---------------------------------------------------------------------------
+#endif

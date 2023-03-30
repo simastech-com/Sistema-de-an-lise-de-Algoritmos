@@ -1,0 +1,26 @@
+//---------------------------------------------------------------------------
+
+#ifndef UVetorH
+#define UVetorH
+class Vetor
+{
+	private:
+		double numero;
+		int    cor;
+
+	public:
+		void   setNumero(double pNumero);
+		double getNumero();
+		void   setCor(int pCor);
+		int    getCor();
+};
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------------------
+#endif

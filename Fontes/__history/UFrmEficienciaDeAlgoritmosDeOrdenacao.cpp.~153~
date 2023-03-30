@@ -1,0 +1,83 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+
+#include<time.h>
+#include<stdio.h>
+
+#pragma hdrstop
+
+#include "UFrmEficienciaDeAlgoritmosDeOrdenacao.h"
+#include "UVetor.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TFrmEficienciaDeAlgoritmosDeOrdenacao *FrmEficienciaDeAlgoritmosDeOrdenacao;
+int vVetorGerado = 0, vTamanhoDoVetor, vFaixaDeValores;
+Vetor *oVetor;
+//double *vVetor;
+//---------------------------------------------------------------------------
+__fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::TFrmEficienciaDeAlgoritmosDeOrdenacao(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvCarregarAlgoritmosDeOrdenacaoOnCreate(TObject *Sender)
+
+{
+	oVetor = new Vetor;
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvFecharFormularioOnClose(TObject *Sender,
+          TCloseAction &Action)
+{
+	delete oVetor;
+	Action = caFree;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvCarregarVetorOnClick(TObject *Sender)
+{
+	int vTamanhoDoVetor;
+	int vFaixaDeValores;
+	int vContador;
+	vTamanhoDoVetor = edtTamanhoDoVetor -> Text.ToInt();
+	vFaixaDeValores = edtFaixaDeValores -> Text.ToInt();
+	oVetor -> setTamanhoDoVetor(vTamanhoDoVetor);
+	oVetor -> setFaixaDeValores(vFaixaDeValores);
+	oVetor -> dimensionarVetor();
+	oVetor -> carregarVetor();
+	carregarGrafico(oVetor ->getNumero() , oVetor ->getCor(), oVetor ->getTamanhoDoVetor());
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvResetarVetorOnClick(TObject *Sender)
+
+{
+	carregarGrafico(oVetor ->getNumero() , oVetor ->getCor(), oVetor ->getTamanhoDoVetor());
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvOrdenarVetorOnClick(TObject *Sender)
+{
+	if (chxSelecao->State == cbChecked) {
+	//FnOrdenarPorSelecao();
+	}
+	Caption = "Ordenação terminada";
+}
+
+//---------------------------------------------------------------------------
+
+void TFrmEficienciaDeAlgoritmosDeOrdenacao::carregarGrafico(double *pNumeros, int *pCores, int pTamanhoDoVetor){
+	int vContador;
+	Series1->Clear();
+	for (vContador = 0; vContador < pTamanhoDoVetor; vContador++) {
+		Series1->AddXY(vContador, pNumeros[vContador], "", pCores[vContador]);
+	}
+}
+//---------------------------------------------------------------------------
+
+
+
+
+

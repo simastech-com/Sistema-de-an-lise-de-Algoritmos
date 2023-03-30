@@ -1,0 +1,223 @@
+object FrmAnaliseDeAlgoritmosDeBusca: TFrmAnaliseDeAlgoritmosDeBusca
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'An'#225'lise de algoritmos de busca'
+  ClientHeight = 520
+  ClientWidth = 1194
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Visible = True
+  OnClose = EvFecharFormularioOnClose
+  PixelsPerInch = 96
+  TextHeight = 13
+  object grpVetor: TGroupBox
+    Left = 8
+    Top = 0
+    Width = 273
+    Height = 121
+    TabOrder = 0
+    object edtTamanhoDoVetor: TLabeledEdit
+      Left = 10
+      Top = 39
+      Width = 119
+      Height = 21
+      EditLabel.Width = 88
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Tamanho do vetor'
+      MaxLength = 5
+      NumbersOnly = True
+      TabOrder = 0
+    end
+    object edtFaixaDeNumeros: TLabeledEdit
+      Left = 145
+      Top = 39
+      Width = 112
+      Height = 21
+      EditLabel.Width = 85
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Faixa de n'#250'meros'
+      MaxLength = 5
+      NumbersOnly = True
+      TabOrder = 1
+    end
+    object btnGerarVetor: TButton
+      Left = 10
+      Top = 77
+      Width = 119
+      Height = 25
+      Caption = 'Gerar vetor'
+      TabOrder = 2
+      OnClick = EvGerarVetorOnClick
+    end
+    object btnResetarVetor: TButton
+      Left = 145
+      Top = 77
+      Width = 112
+      Height = 25
+      Caption = 'Resetar vetor'
+      TabOrder = 3
+    end
+  end
+  object grpBuscar: TGroupBox
+    Left = 287
+    Top = 0
+    Width = 899
+    Height = 121
+    TabOrder = 1
+    object chxSelecionarTudo: TCheckBox
+      Left = 16
+      Top = 24
+      Width = 113
+      Height = 17
+      Caption = 'Selecionar tudo'
+      TabOrder = 0
+      OnClick = EvSelecionarTudoOnClick
+    end
+    object chxBuscaSequencialComum: TCheckBox
+      Left = 202
+      Top = 24
+      Width = 143
+      Height = 17
+      Caption = 'Busca sequencial comum'
+      TabOrder = 1
+    end
+    object chxBuscaSequencialRecursiva: TCheckBox
+      Left = 202
+      Top = 47
+      Width = 159
+      Height = 17
+      Caption = 'Busca sequencial recursiva'
+      TabOrder = 2
+    end
+    object btnBuscar: TButton
+      Left = 795
+      Top = 37
+      Width = 75
+      Height = 25
+      Caption = 'Buscar'
+      TabOrder = 3
+      OnClick = EvBuscarOnClick
+    end
+    object chxPassagemAutomatica: TCheckBox
+      Left = 16
+      Top = 47
+      Width = 148
+      Height = 17
+      Caption = 'Passagem autom'#225'tica'
+      TabOrder = 4
+    end
+    object edtTempo: TLabeledEdit
+      Left = 600
+      Top = 89
+      Width = 153
+      Height = 21
+      EditLabel.Width = 151
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Tempo entre compara'#231#245'es (ms)'
+      MaxLength = 5
+      NumbersOnly = True
+      TabOrder = 5
+    end
+    object chxBuscaBinariaComum: TCheckBox
+      Left = 410
+      Top = 24
+      Width = 145
+      Height = 17
+      Caption = 'Busca bin'#225'ria comum'
+      TabOrder = 6
+    end
+    object chxBuscaBinariaRecursiva: TCheckBox
+      Left = 410
+      Top = 47
+      Width = 159
+      Height = 17
+      Caption = 'Busca bin'#225'ria recursiva'
+      TabOrder = 7
+    end
+    object edtValorASerBuscado: TLabeledEdit
+      Left = 600
+      Top = 39
+      Width = 153
+      Height = 21
+      EditLabel.Width = 94
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Valor a ser buscado'
+      TabOrder = 8
+    end
+  end
+  object chrGraficoDeBusca: TChart
+    Left = 8
+    Top = 127
+    Width = 1178
+    Height = 250
+    AllowPanning = pmVertical
+    Legend.Visible = False
+    Title.Font.Height = -13
+    Title.Text.Strings = (
+      'Vetor')
+    BottomAxis.Title.Caption = 'Posi'#231#227'o no vetor'
+    BottomAxis.Title.Font.Height = -13
+    LeftAxis.Title.Caption = 'Valor'
+    LeftAxis.Title.Font.Height = -13
+    TabOrder = 2
+    PrintMargins = (
+      15
+      38
+      15
+      38)
+    ColorPaletteIndex = 13
+    object Series1: TBarSeries
+      Marks.Arrow.Visible = True
+      Marks.Callout.Brush.Color = clBlack
+      Marks.Callout.Arrow.Visible = True
+      Marks.Emboss.Color = 8487297
+      Marks.Font.Height = -13
+      Marks.Visible = True
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+  end
+  object lvwRelatorioDeBusca: TListView
+    Left = 8
+    Top = 383
+    Width = 1178
+    Height = 124
+    Columns = <
+      item
+        Caption = 'Algoritmo'
+        Width = 479
+      end
+      item
+        Caption = 'Ordem de complexidade'
+        Width = 160
+      end
+      item
+        Caption = 'N'#250'mero de compara'#231#245'es'
+        Width = 160
+      end
+      item
+        Caption = 'Tempo de execu'#231#227'o (ms)'
+        Width = 160
+      end
+      item
+        Caption = 'Tempo de execu'#231#227'o (hh:mm:ss,lll)'
+        Width = 215
+      end>
+    GridLines = True
+    ReadOnly = True
+    RowSelect = True
+    TabOrder = 3
+    ViewStyle = vsReport
+  end
+end

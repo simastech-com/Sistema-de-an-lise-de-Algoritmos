@@ -1,0 +1,591 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#include <time.h>
+#pragma hdrstop
+
+#include "UFrmAnaliseDeAlgoritmosDeBusca.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TFrmAnaliseDeAlgoritmosDeBusca *FrmAnaliseDeAlgoritmosDeBusca;
+//---------------------------------------------------------------------------
+__fastcall TFrmAnaliseDeAlgoritmosDeBusca::TFrmAnaliseDeAlgoritmosDeBusca(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::EvFecharFormularioOnClose(TObject *Sender,
+          TCloseAction &Action)
+{
+	Action = caFree;
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::EvGerarVetorOnClick(TObject *Sender)
+{
+	int vContador;
+	int vCorAuxiliar;
+	if (edtTamanhoDoVetor->Text == "")
+	{
+		ShowMessage("Preencha o tamanho do vetor!");
+	}
+	else if (edtFaixaDeNumeros->Text == "")
+	{
+		ShowMessage("Preencha a faixa de números!");
+	}
+	else
+	{
+		vTamanho = edtTamanhoDoVetor->Text.ToInt();
+		vFaixa   = edtFaixaDeNumeros->Text.ToInt();
+		vVetor   = new (strVetor[vTamanho]);
+		for (vContador = 0; vContador < vTamanho; vContador++)
+		{
+			vVetor[vContador].numero = random(vFaixa);
+			do
+			{
+				vCorAuxiliar              = random(65535);
+				if (vCorAuxiliar > 1000 || vCorAuxiliar < 40000)
+				{
+					vVetor[vContador].cor = vCorAuxiliar;
+				}
+			}while (vCorAuxiliar < 1000 || vCorAuxiliar > 40000);
+		}
+		FncPlotarVetorNoGrafico();
+		lvwRelatorioDeBusca -> Clear();
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncPausa()
+{
+	Sleep(vTempoParaPausa);
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncCopiarVetor(strVetor *pVetorOriginal, strVetor *pVetorCopia)
+{
+	double vNumero;
+	int    vCor;
+	int    vContadorElementos;
+
+	for (vContadorElementos = 0; vContadorElementos < vTamanho; vContadorElementos++)
+	{
+		vNumero                                = pVetorOriginal[vContadorElementos].numero;
+		vCor                                   = pVetorOriginal[vContadorElementos].cor;
+		pVetorCopia[vContadorElementos].numero = vNumero;
+		pVetorCopia[vContadorElementos].cor    = vCor;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncPlotarVetorNoGrafico()
+{
+	int    vContador;
+	int    vCor;
+	double vNumero;
+	Series1           -> Clear();
+	chrGraficoDeBusca -> LeftAxis   -> Maximum = vFaixa;
+	chrGraficoDeBusca -> BottomAxis -> Maximum = vTamanho;
+	for (vContador = 0; vContador < vTamanho; vContador++)
+	{
+		vNumero =  vVetor[vContador].numero;
+		vCor    =  vVetor[vContador].cor;
+		Series1 -> AddXY(vContador, vNumero, "", vCor);
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::EvSelecionarTudoOnClick(TObject *Sender)
+{
+	if (chxSelecionarTudo->Checked)
+	{
+		chxBuscaBinariaComum        ->Checked = true;
+		chxBuscaBinariaRecursiva    ->Checked = true;
+		chxBuscaSequencialComum     ->Checked = true;
+		chxBuscaSequencialRecursiva ->Checked = true;
+	}
+	else
+	{
+		chxBuscaBinariaComum        ->Checked = false;
+		chxBuscaBinariaRecursiva    ->Checked = false;
+		chxBuscaSequencialComum     ->Checked = false;
+		chxBuscaSequencialRecursiva ->Checked = false;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::EvBuscarOnClick(TObject *Sender)
+{
+	if (edtValorASerBuscado ->Text == "")
+	{
+		ShowMessage("Preencha o valor a ser buscado!");
+	}
+	else if (edtTempo ->Text == "")
+	{
+		ShowMessage("Preencha o tempo de atualização da tela!");
+	}
+	else
+	{
+		if (chrGraficoDeBusca->BottomAxis->Maximum > 0)
+		{
+			lvwRelatorioDeBusca->Clear();
+			vTempoParaPausa   = edtTempo->Text.ToInt();
+			vValorASerBuscado = edtValorASerBuscado ->Text.ToDouble();
+			edtValorASerBuscado         -> Enabled = false;
+			edtFaixaDeNumeros           -> Enabled = false;
+			edtTamanhoDoVetor           -> Enabled = false;
+			edtTempo                    -> Enabled = false;
+
+			btnGerarVetor               -> Enabled = false;
+			btnBuscar                   -> Enabled = false;
+			btnResetarVetor             -> Enabled = false;
+
+			chxBuscaBinariaComum        -> Enabled = false;
+			chxBuscaBinariaRecursiva    -> Enabled = false;
+			chxBuscaSequencialComum     -> Enabled = false;
+			chxBuscaSequencialRecursiva -> Enabled = false;
+			chxPassagemAutomatica       -> Enabled = false;
+			chxSelecionarTudo           -> Enabled = false;
+
+			if (chxBuscaSequencialComum -> Checked)
+			{
+				if (!chxPassagemAutomatica->Checked)
+				{
+					if (MessageBox(NULL, L"Deseja iniciar a busca sequencial sem recursividade?", L"Análise de Algoritmos de busca", MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON1) == IDYES)
+					{
+						Caption = "Executando busca sequencial sem recursividade...";
+						FncBuscaSequencialSemRecursividade();
+						Caption = "Busca sequencial sem recursividade terminada";
+					}
+				}
+				else
+				{
+					Caption = "Executando busca sequencial sem recursividade...";
+					FncBuscaSequencialSemRecursividade();
+					Caption = "Busca sequencial sem recursividade terminada";
+				}
+			}
+
+			if (chxBuscaSequencialRecursiva -> Checked)
+			{
+				if (!chxPassagemAutomatica->Checked)
+				{
+					if (MessageBox(NULL, L"Deseja iniciar a busca sequencial com recursividade?", L"Análise de Algoritmos de busca", MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON1) == IDYES)
+					{
+						Caption = "Executando busca sequencial com recursividade...";
+						FncBuscaSequencialRecursivaPrincipal();
+						Caption = "Busca sequencial com recursividade terminada";
+					}
+				}
+				else
+				{
+					Caption = "Executando busca sequencial com recursividade...";
+					FncBuscaSequencialRecursivaPrincipal();
+					Caption = "Busca sequencial com recursividade terminada";
+				}
+			}
+
+			if (chxBuscaBinariaComum -> Checked)
+			{
+				if (!chxPassagemAutomatica->Checked)
+				{
+					if (MessageBox(NULL, L"Deseja iniciar a busca binária sem recursividade?", L"Análise de Algoritmos de busca", MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON1) == IDYES)
+					{
+						Caption = "Executando busca binária sem recursividade...";
+						FncBuscaBinariaSemRecursividade();
+						Caption = "Busca binária sem recursividade terminada";
+					}
+				}
+				else
+				{
+					Caption = "Executando busca binária sem recursividade...";
+					FncBuscaBinariaSemRecursividade();
+					Caption = "Busca binária sem recursividade terminada";
+				}
+			}
+
+			if (chxBuscaBinariaRecursiva -> Checked)
+			{
+				if (!chxPassagemAutomatica -> Checked)
+				{
+					if (MessageBox(NULL, L"Deseja iniciar a busca binária com recursividade?", L"Análise de Algoritmos de busca", MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON1) == IDYES)
+					{
+						Caption = "Executando busca binária com recursividade...";
+						FncBuscaBinariaRecursivaPrincipal();
+						Caption = "Busca binária com recursividade terminada";
+					}
+				}
+				else
+				{
+					Caption = "Executando busca binária com recursividade...";
+					FncBuscaBinariaRecursivaPrincipal();
+					Caption = "Busca binária com recursividade terminada";
+				}
+			}
+
+
+			Caption = "Análise de algoritmos de busca";
+			edtValorASerBuscado         -> Enabled = true;
+			edtFaixaDeNumeros           -> Enabled = true;
+			edtTamanhoDoVetor           -> Enabled = true;
+			edtTempo                    -> Enabled = true;
+
+			btnGerarVetor               -> Enabled = true;
+			btnBuscar                   -> Enabled = true;
+			btnResetarVetor             -> Enabled = true;
+
+			chxBuscaBinariaComum        -> Enabled = true;
+			chxBuscaBinariaRecursiva    -> Enabled = true;
+			chxBuscaSequencialComum     -> Enabled = true;
+			chxBuscaSequencialRecursiva -> Enabled = true;
+			chxPassagemAutomatica       -> Enabled = true;
+			chxSelecionarTudo           -> Enabled = true;
+		}
+		else
+		{
+			ShowMessage("Gere o vetor primeiro!");
+        }
+	}
+}
+//---------------------------------------------------------------------------
+int __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncOrdenarPorSelecao(int &pQuantidadeDeComparacoes)
+{
+	int       vContadorElementos;
+	int       vContadorComparacoes;
+	int       vPosicaoMenor;
+	double    vAuxiliarNumero;
+	int       vAuxiliarCor;
+	clock_t   vInicio;
+	clock_t   vFim;
+	clock_t   vTempoMiliSegundos;
+	String    vTempoFormatado;
+
+	FncPlotarVetorNoGrafico();
+
+	if (vVetorSelecao!=NULL)
+	{
+		delete vVetorSelecao;
+	}
+	else
+	{
+		vVetorSelecao = new (strVetor[vTamanho]);
+    }
+
+	FncCopiarVetor(vVetor, vVetorSelecao);
+
+	vInicio      = clock();
+
+	for (vContadorElementos = 0; vContadorElementos < vTamanho; vContadorElementos++)
+	{
+		vPosicaoMenor = vContadorElementos;
+		for (vContadorComparacoes = vContadorElementos + 1; vContadorComparacoes < vTamanho; vContadorComparacoes++)
+		{
+			pQuantidadeDeComparacoes++;
+			if (vVetorSelecao[vContadorComparacoes].numero < vVetorSelecao[vPosicaoMenor].numero)
+			{
+				vPosicaoMenor = vContadorComparacoes;
+			}
+		}
+		pQuantidadeDeComparacoes++;
+		if (vPosicaoMenor != vContadorElementos)
+		{
+			vAuxiliarNumero                          = vVetorSelecao[vPosicaoMenor].numero;
+			vVetorSelecao[vPosicaoMenor].numero      = vVetorSelecao[vContadorElementos].numero;
+			vVetorSelecao[vContadorElementos].numero = vAuxiliarNumero;
+
+			vAuxiliarCor                             = vVetorSelecao[vPosicaoMenor].cor;
+			vVetorSelecao[vPosicaoMenor].cor         = vVetorSelecao[vContadorElementos].cor;
+			vVetorSelecao[vContadorElementos].cor    = vAuxiliarCor;
+
+			Series1->ValueColor[vPosicaoMenor]       = TColor(vVetorSelecao[vPosicaoMenor].cor);
+			Series1->ValueColor[vContadorElementos]  = TColor(vVetorSelecao[vContadorElementos].cor);
+
+			Series1->YValue[vPosicaoMenor]           = vVetorSelecao[vPosicaoMenor].numero;
+			Series1->YValue[vContadorElementos]      = vVetorSelecao[vContadorElementos].numero;
+
+			Update();
+			FncPausa();
+		}
+	}
+	vFim = clock();
+	vTempoMiliSegundos =  (vFim - vInicio);
+	return vTempoMiliSegundos;
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::EvResetarGraficoOnClick(TObject *Sender)
+{
+	FncPlotarVetorNoGrafico();
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncBuscaBinariaSemRecursividade()
+{
+	int       vEsquerda                         = 0;
+	int       vDireita                          = vTamanho-1;
+	int       vEncontrou                        = 0;
+	int       vMeio;
+	int       vCorMeio                          = 55000;
+	int       vQuantidadeDeComparacoesBusca     = 0;
+	int       vQuantidadeDeComparacoesOrdenacao = 0;
+	int       vTempoDeOrdenacao;
+	int       vTempoDeBusca;
+	String    vTempoFormatado;
+	clock_t   vInicio;
+	clock_t   vFim;
+	TListItem *vItem;
+
+	Caption = "Executando busca binária sem recursividade: Ordenando por seleção...";
+	vTempoDeOrdenacao = FncOrdenarPorSelecao(vQuantidadeDeComparacoesOrdenacao);
+	Caption = "Executando busca binária sem recursividade...";
+
+	vInicio = clock();
+	while((vEsquerda <= vDireita) && (vEncontrou == 0))
+	{
+		vMeio                          = (vEsquerda + vDireita) / 2 ;
+		Series1->ValueColor[vMeio]     = TColor(vCorMeio);
+		Update();
+		FncPausa();
+		vQuantidadeDeComparacoesBusca++;
+		if(vVetorSelecao[vMeio].numero == vValorASerBuscado)
+		{
+			vEncontrou = 1;
+		}
+		else
+		{
+			Series1->ValueColor[vMeio]     = TColor(vVetorSelecao[vMeio].cor);
+			Update();
+			FncPausa();
+			vQuantidadeDeComparacoesBusca++;
+			if(vVetorSelecao[vMeio].numero < vValorASerBuscado)
+			{
+				vEsquerda = vMeio + 1;
+			}
+			else
+			{
+				vQuantidadeDeComparacoesBusca++;
+				if (vVetorSelecao[vMeio].numero > vValorASerBuscado)
+				{
+					vDireita = vMeio - 1;
+				}
+			}
+		}
+   }
+   vFim = clock();
+   vTempoDeBusca = vFim - vInicio;
+
+   if (vEncontrou == 1)
+   {
+		ShowMessage("Valor encontrado na posição " + IntToStr(vMeio));
+   }
+   else
+   {
+		ShowMessage("O valor não foi encontrado");
+   }
+
+   vItem             = lvwRelatorioDeBusca ->Items->Add();
+   vItem -> Caption  = "Algoritmo de busca binária sem recursividade e com ordenação por seleção";
+   vItem -> SubItems -> Add("log n + n²");
+   vItem ->SubItems  -> Add(vQuantidadeDeComparacoesBusca + vQuantidadeDeComparacoesOrdenacao);
+   vItem -> SubItems -> Add(vTempoDeBusca + vTempoDeOrdenacao);
+   vTempoFormatado   = String((int((vTempoDeBusca + vTempoDeOrdenacao)/3600000))) + "h" + String((int((vTempoDeBusca + vTempoDeOrdenacao)/60000))%60) + "min" + String((int((vTempoDeBusca + vTempoDeOrdenacao)/1000))%60) + "s," + String((vTempoDeBusca + vTempoDeOrdenacao)%1000);
+   vItem -> SubItems -> Add(vTempoFormatado);
+
+   vItem             = lvwRelatorioDeBusca ->Items->Add();
+   vItem -> Caption  = "Algoritmo de busca binária sem recursividade";
+   vItem -> SubItems -> Add("log n");
+   vItem -> SubItems -> Add(vQuantidadeDeComparacoesBusca);
+   vItem -> SubItems -> Add(vTempoDeBusca);
+   vTempoFormatado   = String((int((vTempoDeBusca)/3600000))) + "h" + String((int((vTempoDeBusca)/60000))%60) + "min" + String((int((vTempoDeBusca)/1000))%60) + "s," + String((vTempoDeBusca)%1000);
+   vItem -> SubItems -> Add(vTempoFormatado);
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncBuscaBinariaRecursivaPrincipal()
+{
+	int       vPosicao;
+	int       vQuantidadeDeComparacoesBusca     = 0;
+	int       vQuantidadeDeComparacoesOrdenacao = 0;
+	int       vTempoDeOrdenacao;
+	int       vTempoDeBusca;
+	String    vTempoFormatado;
+	clock_t   vInicio;
+	clock_t   vFim;
+	TListItem *vItem;
+
+	Caption           = "Executando busca binária com recursividade: Ordenando por seleção...";
+	vTempoDeOrdenacao = FncOrdenarPorSelecao(vQuantidadeDeComparacoesOrdenacao);
+	Caption           = "Executando busca binária com recursividade...";
+
+	vInicio           = clock();
+	vPosicao          = FncBuscaBinariaRecursiva(vTamanho-1,0,vValorASerBuscado, vQuantidadeDeComparacoesBusca);
+	vFim              = clock();
+	vTempoDeBusca     = vFim - vInicio;
+
+   if (vPosicao >= 0)
+   {
+		ShowMessage("Valor encontrado na posição " + IntToStr(vPosicao));
+   }
+   else
+   {
+		ShowMessage("O valor não foi encontrado");
+   }
+
+   vItem             = lvwRelatorioDeBusca ->Items->Add();
+   vItem -> Caption  = "Algoritmo de busca binária com recursividade e com ordenação por seleção";
+   vItem -> SubItems -> Add("log n + n²");
+   vItem ->SubItems  -> Add(vQuantidadeDeComparacoesBusca + vQuantidadeDeComparacoesOrdenacao);
+   vItem -> SubItems -> Add(vTempoDeBusca + vTempoDeOrdenacao);
+   vTempoFormatado   = String((int((vTempoDeBusca + vTempoDeOrdenacao)/3600000))) + "h" + String((int((vTempoDeBusca + vTempoDeOrdenacao)/60000))%60) + "min" + String((int((vTempoDeBusca + vTempoDeOrdenacao)/1000))%60) + "s," + String((vTempoDeBusca + vTempoDeOrdenacao)%1000);
+   vItem -> SubItems -> Add(vTempoFormatado);
+
+   vItem             = lvwRelatorioDeBusca ->Items->Add();
+   vItem -> Caption  = "Algoritmo de busca binária com recursividade";
+   vItem -> SubItems -> Add("log n");
+   vItem -> SubItems -> Add(vQuantidadeDeComparacoesBusca);
+   vItem -> SubItems -> Add(vTempoDeBusca);
+   vTempoFormatado   = String((int((vTempoDeBusca)/3600000))) + "h" + String((int((vTempoDeBusca)/60000))%60) + "min" + String((int((vTempoDeBusca)/1000))%60) + "s," + String((vTempoDeBusca)%1000);
+   vItem -> SubItems -> Add(vTempoFormatado);
+}
+//---------------------------------------------------------------------------
+int  __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncBuscaBinariaRecursiva(int pDireita, int pEsquerda, double pValorBuscado, int &pQuantidadeDeComparacoes)
+{
+	int vMeio;
+	int vCorMeio               = 55000;
+	vMeio                      = (pDireita + pEsquerda)/2;
+	Series1->ValueColor[vMeio] = TColor(vCorMeio);
+	Update();
+	FncPausa();
+	pQuantidadeDeComparacoes++;
+	if (vVetorSelecao[vMeio].numero == pValorBuscado)
+	{
+		return vMeio;
+	}
+	if (pDireita == pEsquerda)
+	{
+		Series1-> ValueColor[vMeio] = TColor(vVetorSelecao[vMeio].cor);
+		Update();
+		FncPausa();
+		return -1;
+	}
+	pQuantidadeDeComparacoes++;
+	if (vVetorSelecao[vMeio].numero > pValorBuscado)
+	{
+		Series1-> ValueColor[vMeio] = TColor(vVetorSelecao[vMeio].cor);
+		Update();
+		FncPausa();
+		return FncBuscaBinariaRecursiva(vMeio - 1, pEsquerda, pValorBuscado, pQuantidadeDeComparacoes);
+	}
+	pQuantidadeDeComparacoes++;
+	if (vVetorSelecao[vMeio].numero < pValorBuscado)
+	{
+		Series1-> ValueColor[vMeio] = TColor(vVetorSelecao[vMeio].cor);
+		Update();
+		FncPausa();
+		return FncBuscaBinariaRecursiva(pDireita, vMeio + 1, pValorBuscado, pQuantidadeDeComparacoes);
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncBuscaSequencialSemRecursividade()
+{
+	int       vEncontrou               = 0;
+	int       vContadorDeElementos     = 0;
+	int       vQuantidadeDeComparacoes = 0;
+	int       vCorEmExecucao           = 55000;
+	clock_t   vInicio;
+	clock_t   vFim;
+	clock_t   vTempoMiliSegundos;
+	String    vTempoFormatado;
+	TListItem *vItem;
+
+	FncPlotarVetorNoGrafico();
+
+	vInicio = clock();
+	while (vContadorDeElementos < vTamanho && vEncontrou != 1)
+	{
+		Series1->ValueColor[vContadorDeElementos]     = TColor(vCorEmExecucao);
+		Update();
+		FncPausa();
+		vQuantidadeDeComparacoes++;
+		if (vVetor[vContadorDeElementos].numero == vValorASerBuscado)
+		{
+			vEncontrou = 1;
+		}
+		else
+		{
+			Series1->ValueColor[vContadorDeElementos] = TColor(vVetor[vContadorDeElementos].cor);
+			Update();
+			FncPausa();
+			vContadorDeElementos++;
+        }
+	}
+	vFim = clock();
+	vTempoMiliSegundos = vFim - vInicio;
+	if (vEncontrou == 1)
+	{
+		ShowMessage("Valor encontrado na posição " + IntToStr(vContadorDeElementos));
+	}
+	else
+	{
+		ShowMessage("O valor não foi encontrado");
+	}
+	vItem             = lvwRelatorioDeBusca ->Items->Add();
+	vItem -> Caption  = "Algoritmo de busca sequencial sem recursividade";
+	vItem -> SubItems -> Add("n");
+	vItem -> SubItems -> Add(vQuantidadeDeComparacoes);
+	vItem -> SubItems -> Add(vTempoMiliSegundos);
+	vTempoFormatado   = String((int((vTempoMiliSegundos)/3600000))) + "h" + String((int((vTempoMiliSegundos)/60000))%60) + "min" + String((int((vTempoMiliSegundos)/1000))%60) + "s," + String((vTempoMiliSegundos)%1000);
+	vItem -> SubItems -> Add(vTempoFormatado);
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncBuscaSequencialRecursivaPrincipal()
+{
+	int       vPosicao;
+	int       vQuantidadeDeComparacoes = 0;
+	clock_t   vInicio;
+	clock_t   vFim;
+	clock_t   vTempoMiliSegundos;
+	String    vTempoFormatado;
+	TListItem *vItem;
+
+	FncPlotarVetorNoGrafico();
+
+	vInicio = clock();
+	vPosicao = FncBuscaSequencialRecursiva(0, vQuantidadeDeComparacoes);
+	vFim = clock();
+	vTempoMiliSegundos = vFim - vInicio;
+
+	if (vPosicao >= 0)
+	{
+		ShowMessage("Valor encontrado na posição " + IntToStr(vPosicao));
+	}
+	else
+	{
+		ShowMessage("O valor não foi encontrado");
+	}
+	vItem             = lvwRelatorioDeBusca ->Items->Add();
+	vItem -> Caption  = "Algoritmo de busca sequencial com recursividade";
+	vItem -> SubItems -> Add("n");
+	vItem -> SubItems -> Add(vQuantidadeDeComparacoes);
+	vItem -> SubItems -> Add(vTempoMiliSegundos);
+	vTempoFormatado   = String((int((vTempoMiliSegundos)/3600000))) + "h" + String((int((vTempoMiliSegundos)/60000))%60) + "min" + String((int((vTempoMiliSegundos)/1000))%60) + "s," + String((vTempoMiliSegundos)%1000);
+	vItem -> SubItems -> Add(vTempoFormatado);
+
+}
+//---------------------------------------------------------------------------
+int  __fastcall TFrmAnaliseDeAlgoritmosDeBusca::FncBuscaSequencialRecursiva(int pPosicao, int &pQuantidadeDeComparacoes)
+{
+	int vCorEmExecucao            = 55000;
+	Series1->ValueColor[pPosicao] = TColor(vCorEmExecucao);
+	Update();
+	FncPausa();
+	pQuantidadeDeComparacoes++;
+	if (vVetor[pPosicao].numero == vValorASerBuscado)
+	{
+		return pPosicao;
+	}
+	if (pPosicao == vTamanho - 1)
+	{
+		Series1->ValueColor[pPosicao] = TColor(vVetor[pPosicao].cor);
+		Update();
+		FncPausa();
+		return -1;
+	}
+	Series1->ValueColor[pPosicao] = TColor(vVetor[pPosicao].cor);
+	Update();
+	FncPausa();
+	return FncBuscaSequencialRecursiva(pPosicao+1, pQuantidadeDeComparacoes);
+
+}

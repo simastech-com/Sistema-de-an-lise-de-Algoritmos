@@ -1,0 +1,28 @@
+//---------------------------------------------------------------------------
+
+#ifndef UVetorH
+#define UVetorH
+class Vetor
+{
+	private:
+		double *numero;
+		int    *cor;
+		int    tamanho;
+		int    faixaDeValores;
+
+	public:
+		Vetor();
+		~Vetor();
+		void   setNumero(double pNumero, int pPosicao);
+		double getNumero(int pPosicao);
+		void   setCor(int pCor, int pPosicao);
+		int    getCor(int pPosicao);
+		void   setTamanho(int pTamanho);
+		int    getTamanho();
+		void   setFaixaDeValores(int pFaixaDeValores);
+		int    getFaixaDeValores();
+
+		void   carregarVetor(int pTamanhoDoVetor, int pFaixaDeValores);
+};
+//---------------------------------------------------------------------------
+#endif

@@ -1,0 +1,16 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "UFrmEficienciaDeAlgoritmosDeOrdenacao.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TFrmEficienciaDeAlgoritmosDeOrdenacao *FrmEficienciaDeAlgoritmosDeOrdenacao;
+//---------------------------------------------------------------------------
+__fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::TFrmEficienciaDeAlgoritmosDeOrdenacao(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------

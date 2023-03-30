@@ -1,0 +1,73 @@
+//---------------------------------------------------------------------------
+
+#ifndef UFrmAnaliseDeAlgoritmosDeBuscaH
+#define UFrmAnaliseDeAlgoritmosDeBuscaH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <VCLTee.Chart.hpp>
+#include <VCLTee.Series.hpp>
+#include <VCLTee.TeEngine.hpp>
+#include <VCLTee.TeeProcs.hpp>
+//---------------------------------------------------------------------------
+class TFrmAnaliseDeAlgoritmosDeBusca : public TForm
+{
+__published:	// IDE-managed Components
+	TGroupBox *grpVetor;
+	TLabeledEdit *edtTamanhoDoVetor;
+	TLabeledEdit *edtFaixaDeNumeros;
+	TButton *btnGerarVetor;
+	TGroupBox *grpBuscar;
+	TCheckBox *chxSelecionarTudo;
+	TCheckBox *chxBuscaSequencialComum;
+	TCheckBox *chxBuscaSequencialRecursiva;
+	TButton *btnBuscar;
+	TCheckBox *chxPassagemAutomatica;
+	TLabeledEdit *edtTempo;
+	TChart *chrGraficoDeBusca;
+	TBarSeries *Series1;
+	TListView *lvwRelatorioDeBusca;
+	TCheckBox *chxBuscaBinariaComum;
+	TCheckBox *chxBuscaBinariaRecursiva;
+	TLabeledEdit *edtValorASerBuscado;
+	TButton *btnResetarVetor;
+	void __fastcall EvFecharFormularioOnClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall EvGerarVetorOnClick(TObject *Sender);
+	void __fastcall EvSelecionarTudoOnClick(TObject *Sender);
+	void __fastcall EvBuscarOnClick(TObject *Sender);
+	void __fastcall EvResetarGraficoOnClick(TObject *Sender);
+
+private:	// User declarations
+public:
+	struct strVetor
+	{
+		double numero;
+		int    cor;
+	};
+	strVetor *vVetor;
+	strVetor *vVetorSelecao;
+	int      vTamanho;
+	int      vFaixa;
+	int      vTempoParaPausa;
+	double   vValorASerBuscado;
+
+	void  __fastcall FncPausa();
+	void  __fastcall FncCopiarVetor(strVetor *pVetorOriginal, strVetor *pVetorCopia);
+	void  __fastcall FncPlotarVetorNoGrafico();
+	void  __fastcall FncBuscaBinariaSemRecursividade();
+	int   __fastcall FncOrdenarPorSelecao(int &pQuantidadeDeComparacoes);
+	void  __fastcall FncBuscaBinariaRecursivaPrincipal();
+	int   __fastcall FncBuscaBinariaRecursiva(int pDireita, int pEsquerda, double pValorBuscado,  int &pQuantidadeDeComparacoes);
+	void  __fastcall FncBuscaSequencialSemRecursividade();
+	void  __fastcall FncBuscaSequencialRecursivaPrincipal();
+	int   __fastcall FncBuscaSequencialRecursiva(int pPosicao, int &pQuantidadeDeComparacoes);
+	__fastcall TFrmAnaliseDeAlgoritmosDeBusca(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TFrmAnaliseDeAlgoritmosDeBusca *FrmAnaliseDeAlgoritmosDeBusca;
+//---------------------------------------------------------------------------
+#endif

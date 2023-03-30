@@ -1,0 +1,48 @@
+//---------------------------------------------------------------------------
+
+#ifndef UFrmEficienciaDeAlgoritmosDeOrdenacaoH
+#define UFrmEficienciaDeAlgoritmosDeOrdenacaoH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <VCLTee.Chart.hpp>
+#include <VCLTee.TeEngine.hpp>
+#include <VCLTee.TeeProcs.hpp>
+#include <VCLTee.Series.hpp>
+//---------------------------------------------------------------------------
+class TFrmEficienciaDeAlgoritmosDeOrdenacao : public TForm
+{
+__published:	// IDE-managed Components
+	TGroupBox *grpVetor;
+	TChart *crtGraficoDeOrdenacao;
+	TLabeledEdit *edtFaixaDeValores;
+	TLabeledEdit *edtTamanhoDoVetor;
+	TButton *btnCarregarVetor;
+	TButton *btnResetar;
+	TBarSeries *Series1;
+	TGroupBox *grpOrdenacao;
+	TButton *btnOrdenar;
+	TCheckBox *chxSelecao;
+	TGroupBox *grpEstatisticas;
+	TChart *Chart1;
+	TBarSeries *Series2;
+	void __fastcall EvFecharFormularioOnClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall EvCarregarVetorOnClick(TObject *Sender);
+	void __fastcall EvResetarVetorOnClick(TObject *Sender);
+	void __fastcall EvOrdenarVetorOnClick(TObject *Sender);
+	void __fastcall EvCarregarAlgoritmosDeOrdenacaoOnCreate(TObject *Sender);
+
+private:	// User declarations
+public:		// User declarations
+	void carregarGrafico(double *pNumeros, int *pCores, int pTamanhoDoVetor);
+	//void FnOrdenarPorSelecao();
+	void FnResetarGrafico();
+	__fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TFrmEficienciaDeAlgoritmosDeOrdenacao *FrmEficienciaDeAlgoritmosDeOrdenacao;
+//---------------------------------------------------------------------------
+#endif

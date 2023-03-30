@@ -1,0 +1,43 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+
+#include<time.h>
+#include<stdio.h>
+
+#pragma hdrstop
+
+#include "UFrmEficienciaDeAlgoritmosDeOrdenacao.h"
+#include "UVetor.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TFrmEficienciaDeAlgoritmosDeOrdenacao *FrmEficienciaDeAlgoritmosDeOrdenacao;
+int vVetorGerado = 0, vTamanhoDoVetor, vFaixaDeValores;
+Vetor *oVetor;
+//double *vVetor;
+//---------------------------------------------------------------------------
+__fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::TFrmEficienciaDeAlgoritmosDeOrdenacao(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmEficienciaDeAlgoritmosDeOrdenacao::EvCarregarAlgoritmosDeOrdenacaoOnCreate(TObject *Sender)
+
+{
+	oVetor = new Vetor;
+}
+//---------------------------------------------------------------------------
+
+
+
+
+void TFrmEficienciaDeAlgoritmosDeOrdenacao::carregarGrafico(double *pNumeros, int *pCores, int pTamanhoDoVetor){
+
+}
+//---------------------------------------------------------------------------
+
+
+
+
+

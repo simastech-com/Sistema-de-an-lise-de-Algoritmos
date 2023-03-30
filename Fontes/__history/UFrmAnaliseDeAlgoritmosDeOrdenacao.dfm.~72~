@@ -1,0 +1,226 @@
+object FrmAnaliseDeAlgoritmosDeOrdenacao: TFrmAnaliseDeAlgoritmosDeOrdenacao
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'An'#225'lise de algoritmos de ordena'#231#227'o'
+  ClientHeight = 520
+  ClientWidth = 1194
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsMDIForm
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Visible = True
+  OnClose = EvFecharAnaliseDeAlgoritmosDeOrdenacaoOnClose
+  PixelsPerInch = 96
+  TextHeight = 16
+  object grpVetor: TGroupBox
+    Left = 8
+    Top = 0
+    Width = 473
+    Height = 105
+    TabOrder = 0
+    object edtTamanhoDoVetor: TLabeledEdit
+      Left = 16
+      Top = 40
+      Width = 105
+      Height = 24
+      EditLabel.Width = 105
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Tamanho do vetor'
+      MaxLength = 5
+      NumbersOnly = True
+      TabOrder = 0
+    end
+    object edtFaixaDeNumeros: TLabeledEdit
+      Left = 144
+      Top = 39
+      Width = 105
+      Height = 24
+      EditLabel.Width = 102
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Faixa de n'#250'meros'
+      MaxLength = 5
+      NumbersOnly = True
+      TabOrder = 1
+    end
+    object btnGerarVetor: TButton
+      Left = 278
+      Top = 39
+      Width = 75
+      Height = 25
+      Caption = 'Gerar vetor'
+      TabOrder = 2
+      OnClick = EvGerarVetorOnClick
+    end
+    object btnResetar: TButton
+      Left = 384
+      Top = 39
+      Width = 75
+      Height = 25
+      Caption = 'Resetar'
+      TabOrder = 3
+      OnClick = EvResetarGrafico
+    end
+  end
+  object grpOrdenar: TGroupBox
+    Left = 487
+    Top = 0
+    Width = 699
+    Height = 105
+    TabOrder = 1
+    object chxSelecionarTudo: TCheckBox
+      Left = 16
+      Top = 24
+      Width = 113
+      Height = 17
+      Caption = 'Selecionar tudo'
+      TabOrder = 0
+      OnClick = E
+    end
+    object chxInsercao: TCheckBox
+      Left = 210
+      Top = 24
+      Width = 97
+      Height = 17
+      Caption = 'Inser'#231#227'o'
+      TabOrder = 1
+    end
+    object chxQuickSort: TCheckBox
+      Left = 327
+      Top = 24
+      Width = 86
+      Height = 17
+      Caption = 'Quick Sort'
+      TabOrder = 2
+    end
+    object chxBolha: TCheckBox
+      Left = 210
+      Top = 47
+      Width = 97
+      Height = 17
+      Caption = 'Bolha'
+      TabOrder = 3
+    end
+    object chxMergeSort: TCheckBox
+      Left = 327
+      Top = 47
+      Width = 97
+      Height = 17
+      Caption = 'Merge Sort'
+      TabOrder = 4
+    end
+    object chxSelecao: TCheckBox
+      Left = 210
+      Top = 70
+      Width = 75
+      Height = 17
+      Caption = 'Sele'#231#227'o'
+      TabOrder = 5
+    end
+    object btnOrdenar: TButton
+      Left = 615
+      Top = 39
+      Width = 75
+      Height = 25
+      Caption = 'Ordenar'
+      TabOrder = 6
+      OnClick = EvOrdenarVetorOnClick
+    end
+    object chxPassagemAutomatica: TCheckBox
+      Left = 16
+      Top = 47
+      Width = 148
+      Height = 17
+      Caption = 'Passagem autom'#225'tica'
+      TabOrder = 7
+    end
+    object edtTempo: TLabeledEdit
+      Left = 456
+      Top = 39
+      Width = 145
+      Height = 24
+      EditLabel.Width = 144
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Tempo entre trocas (ms)'
+      MaxLength = 5
+      NumbersOnly = True
+      TabOrder = 8
+    end
+  end
+  object chrGraficoDeOrdenacao: TChart
+    Left = 8
+    Top = 111
+    Width = 1178
+    Height = 250
+    AllowPanning = pmVertical
+    Legend.Visible = False
+    Title.Font.Height = -13
+    Title.Text.Strings = (
+      'Vetor')
+    BottomAxis.Title.Caption = 'Posi'#231#227'o no vetor'
+    BottomAxis.Title.Font.Height = -13
+    LeftAxis.Title.Caption = 'Valor'
+    LeftAxis.Title.Font.Height = -13
+    TabOrder = 2
+    PrintMargins = (
+      15
+      38
+      15
+      38)
+    ColorPaletteIndex = 13
+    object Series1: TBarSeries
+      Marks.Arrow.Visible = True
+      Marks.Callout.Brush.Color = clBlack
+      Marks.Callout.Arrow.Visible = True
+      Marks.Emboss.Color = 8487297
+      Marks.Font.Height = -13
+      Marks.Visible = True
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
+  end
+  object lvwRelatorioDeOrdenacao: TListView
+    Left = 8
+    Top = 367
+    Width = 1178
+    Height = 124
+    Columns = <
+      item
+        Caption = 'Algoritmo'
+        Width = 359
+      end
+      item
+        Caption = 'Ordem de complexidade'
+        Width = 160
+      end
+      item
+        Caption = 'N'#250'mero de trocas'
+        Width = 120
+      end
+      item
+        Caption = 'N'#250'mero de compara'#231#245'es'
+        Width = 160
+      end
+      item
+        Caption = 'Tempo de execu'#231#227'o (ms)'
+        Width = 160
+      end
+      item
+        Caption = 'Tempo de execu'#231#227'o (hh:mm:ss,lll)'
+        Width = 215
+      end>
+    GridLines = True
+    ReadOnly = True
+    RowSelect = True
+    TabOrder = 3
+    ViewStyle = vsReport
+  end
+end

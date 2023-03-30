@@ -1,0 +1,32 @@
+//---------------------------------------------------------------------------
+
+#ifndef UFrmAutorH
+#define UFrmAutorH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Imaging.jpeg.hpp>
+//---------------------------------------------------------------------------
+class TFrmAutor : public TForm
+{
+__published:	// IDE-managed Components
+	TImage *ImgAutor;
+	TLabel *Label1;
+	TLabel *Label2;
+	TLabel *Label3;
+	TLabel *Label4;
+	TLabel *Label5;
+	TLabel *Label6;
+	TButton *btnSair;
+	void __fastcall EvFecharFormularioOnClick(TObject *Sender);
+private:	// User declarations
+public:		// User declarations
+	__fastcall TFrmAutor(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TFrmAutor *FrmAutor;
+//---------------------------------------------------------------------------
+#endif
