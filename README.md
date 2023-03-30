@@ -4,6 +4,8 @@ Projeto desenvolvido na disciplina de Análise de Algoritmos do 6º semestre do 
 
 Resultado:
 
+[![Watch the video](https://img.youtube.com/vi/<oZHYu488Ljk>/hqdefault.jpg)](https://www.youtube.com/watch?v=<oZHYu488Ljk>)
+
 [![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://www.youtube.com/embed/oZHYu488Ljk)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/oZHYu488Ljk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 <img src="https://github.com/simastech-com/Sistema-de-an-lise-de-Algoritmos/blob/main/Imagens/Resultado.png"/>
